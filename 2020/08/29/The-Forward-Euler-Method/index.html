@@ -1,37 +1,254 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
 
+  
+  <title>Modeling and Simulation Fundamentals | Despedida9</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="The Forward Euler Method欧拉方法是一种一阶数值方法，用以对给定初值的常微分方程（即初值问题）求解。它是一种解决数值常微分方程的最基本的一类显型方法。我们用上面的方程来控制位置和速度的变化率。  位置的变化率是速度， 速度的变化率是加速度，按牛顿第二定律，力除以质量，在典型的设置中，我们也知道时间0处的位置和 速度。现在我们使用计算机来了解这些方程式导致的结果，最简单的方法称">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Modeling and Simulation Fundamentals">
+<meta property="og:url" content="http://yoursite.com/2020/08/29/The-Forward-Euler-Method/index.html">
+<meta property="og:site_name" content="Despedida9">
+<meta property="og:description" content="The Forward Euler Method欧拉方法是一种一阶数值方法，用以对给定初值的常微分方程（即初值问题）求解。它是一种解决数值常微分方程的最基本的一类显型方法。我们用上面的方程来控制位置和速度的变化率。  位置的变化率是速度， 速度的变化率是加速度，按牛顿第二定律，力除以质量，在典型的设置中，我们也知道时间0处的位置和 速度。现在我们使用计算机来了解这些方程式导致的结果，最简单的方法称">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/home/public/avatar/s_v_t.svg">
+<meta property="og:image" content="http://yoursite.com/home/public/avatar/0_h.svg">
+<meta property="og:image" content="http://yoursite.com/home/public/avatar/h_2h.svg">
+<meta property="article:published_time" content="2020-08-29T01:04:50.000Z">
+<meta property="article:modified_time" content="2020-08-29T05:35:18.955Z">
+<meta property="article:author" content="Will Young">
+<meta property="article:tag" content="MITxAI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/home/public/avatar/s_v_t.svg">
+  
+    <link rel="alternate" href="/atom.xml" title="Despedida9" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<meta name="generator" content="Hexo 5.1.1"></head>
 
-{% block page_class %}page-post-detail{% endblock %}
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Despedida9</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-The-Forward-Euler-Method" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/29/The-Forward-Euler-Method/" class="article-date">
+  <time datetime="2020-08-29T01:04:50.000Z" itemprop="datePublished">2020-08-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Modeling and Simulation Fundamentals
+    </h1>
+  
 
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="The-Forward-Euler-Method"><a href="#The-Forward-Euler-Method" class="headerlink" title="The Forward Euler Method"></a>The Forward Euler Method</h1><p>欧拉方法是一种一阶数值方法，用以对给定初值的常微分方程（即初值问题）求解。它是一种解决数值常微分方程的最基本的一类显型方法。<br><img src="/home/public/avatar/s_v_t.svg"><br>我们用上面的方程来控制位置和速度的变化率。</p>
+<ul>
+<li>位置的变化率是速度，</li>
+<li>速度的变化率是加速度，<br>按牛顿第二定律，力除以质量，在典型的设置中，我们也知道时间0处的位置和 速度。<br>现在我们使用计算机来了解这些方程式导致的结果，最简单的方法称为前向欧拉方法。<br><img src="/home/public/avatar/0_h.svg"><br>欧拉的思想是通过在很短的时间内来解决这些方程式。如果我们从初始位置——和初始速度——开始，那么在一个很的短时间间隔内会发生什么呢？</li>
+</ul>
+<p>位置将大约增加速度的h倍：如果速度是每秒2米，我们等待3秒，位置将改变6米。当然，实际仿真时我们使用的时间步长要小得多。<br>速度的变化也是类似的，在一些小的时间间隔之后，速度将是其原始值加上时间步长乘以加速度，即。</p>
+<p>所以这个方程会使我们获得大概从时刻0到时刻的解。这里用等号其实并不是很准确，应该是约等于。<br><img src="/home/public/avatar/h_2h.svg"><br>以同样的方式，我们可以用另一个时间步长得出从h到2h的结果。我们知道在第一步结束时我们已达到的位置，并且我们继续使用新的速度，这导致了新的位置——速度也是类似的。反复迭代此过程，就可以随时查找位置和速度的估计值。</p>
+<p>另一种角度看上面的公式：从当前时刻出发，根据当前时刻的函数值及其导数，可得到下一时刻的值。因此显式欧拉法又称为前向欧拉（Forward Euler）<br>即<br>$$\tilde{u}<em>{k+1} = \tilde{u}</em>{k} + \Delta t f(\tilde{u}_k,t_k)$$</p>
+<h1 id="Higher-Order-ODE-Integrators"><a href="#Higher-Order-ODE-Integrators" class="headerlink" title="Higher-Order ODE Integrators"></a>Higher-Order ODE Integrators</h1><h2 id="Runge-Kutta-4-Method"><a href="#Runge-Kutta-4-Method" class="headerlink" title="Runge-Kutta 4 Method"></a>Runge-Kutta 4 Method</h2><p>Forward Euler is a first-order accurate method meaning if the step size is halved, the error will be halved as well.</p>
+<p>4-stage Runge-Kutta (RK4) is a <strong>multi-stage method</strong> that is fourth-order accurate, meaning <em>if we halve the time step, the error is reduced by a factor of 1/16</em>.</p>
+<p>The  4-stage Runge-Kutta iteration is:<br>$$t_{k+1/2} := t_{k} + \frac{\Delta t}{2}, ;; t_{k+1} := t_{k} + \Delta t$$<br>$$s_1 = f(u_{k},t_{k})$$<br>$$s_2 = f(u_{k} + \frac{\Delta t}{2} s_1,t_{k+1/2})$$<br>$$s_3 = f(u_{k} + \frac{\Delta t}{2} s_2,t_{k+1/2})$$<br>$$s_4 = f(u_{k} + \Delta t , s_3,t_{k+1})$$<br>$$u_{k+1} = u_{k} + \frac{\Delta t}{6}\left(s_1 + 2s_2 + 2s_3 + s_4 \right)$$<br>Note that each time step requires four evaluations of $f(u,t).$</p>
+<p>In general we expect the numerical solution from an ODE solver to improve as we decrease the step size used, which will increase the computational cost. However, we don’t have any guarantees that using different schemes with the same computational cost will result in better, worse, or the same accuracy. It is important to note that <strong>a method’s order of accuracy is a statement about the rate the numerical error will decrease as the step size decreases, not a statement about how accurate a method is at a given step size or computational cost.</strong><br>There are two points to make here. First there are classes of problems that forward Euler will solve exactly. In these cases RK4 cannot be more accurate than that. Second, the statement that RK4 is a higher order method than forward Euler is a statement that the error in RK4 reduces faster as we decrease the step size, not a statement that RK4 will be more accurate at a given step size. It is very often the case that RK4 is more accurate, especially at small step sizes, but we are not guaranteed that.</p>
+<p>明白精确度的定义是误差随步长减小而减小的速率，而非是在固定步长或计算成本的情况下的。</p>
+<h1 id="The-Backward-Euler-Method"><a href="#The-Backward-Euler-Method" class="headerlink" title="The Backward Euler Method"></a>The Backward Euler Method</h1><p>Forward Euler and Runge-Kutta method are <strong>explicit methods</strong>, meaning that you can write down an explicit formula for the solution at the next time step.</p>
+<p>Backward Euler is an implicit solver, meaning we cannot, in general, express the updated solution in closed form. The backward Euler scheme is defined by iteration:<br>$$u_{k+1} = u_{k} + f(u_{k+1},t_{k+1})\Delta t$$<br>where the $u_{k+1}$ is defined implicitly as a solution to this equation. </p>
+<p>In general, using backward Euler requires solving a root-finding problem to find the updated solution. This means each iteration of backward Euler has the computation cost of solving a nonlinear equation. The form of the root-finding problem is:</p>
+<p>$$R(u_{k+1}) = u_{k+1} - u_{k} - \Delta t f(u_{k+1},t_{k+1}) = 0$$</p>
+<p>Backward Euler has a property called unconditional stability, meaning that <strong>if the true solution remains bounded for all time, then the approximate solution given by the backward Euler scheme will remain bounded for all time</strong>, even when using very large time steps. This is a very attractive quality to have, especially for investigating the long term behavior of certain systems.</p>
+<p>So implicit methods in general are actually <strong>pretty widely used<br>for systems that have this very vast range of timescales</strong>, and particular systems where maybe there’svery fast processes that are happening,but you care about integrating for a very long time because you care about some slower process.</p>
+<p>参考：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e774e75f1263">https://www.jianshu.com/p/e774e75f1263</a></li>
+</ol>
 
-{% block content %}
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/29/The-Forward-Euler-Method/" data-id="ckefh8o5f0008rkuj8s9lamaa" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MITxAI/" rel="tag">MITxAI</a></li></ul>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/08/29/Live-Session-Notes/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Live Session Notes
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/08/28/FirstBlog/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">FirstBlog</div>
+    </a>
+  
+</nav>
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MITxAI/" rel="tag">MITxAI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/" rel="tag">个人总结</a></li></ul>
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/MITxAI/" style="font-size: 20px;">MITxAI</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/" style="font-size: 10px;">个人总结</a>
+    </div>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/08/29/Live-Session-Notes/">Live Session Notes</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/29/The-Forward-Euler-Method/">Modeling and Simulation Fundamentals</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/28/FirstBlog/">FirstBlog</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Will Young<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
