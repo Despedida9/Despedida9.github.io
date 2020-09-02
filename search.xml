@@ -7,46 +7,20 @@
 <blockquote>
 <p>“人总是在不断的失败中谋求光明的出路。”</p>
 </blockquote>
+<a id="more"></a>
+
 <p>而这样一段时间对于我而言就是失败的一段又一段的经历罢了，与其怨天尤人，不如重振旗鼓，整装待发，迎接新一轮的开始。<br>很喜欢最近看的电影中的一句话：</p>
 <blockquote>
-<p>井底之蛙，不知大海之宽广，却晓天空之蓝。<br>                         ————《知晓天空芝之蓝的人啊》</p>
+<p>井底之蛙，不知大海之宽广，却晓天空之蓝。<br>                                                                            ——《知晓天空芝之蓝的人啊》</p>
 </blockquote>
 <p>人生总是在不断的面临选择，有的人选择对了，就能很顺利的走下去；有的人可能没有那么幸运，绕了弯路，但也有自己的未来可言。</p>
 <p>只希望从此刻起，能够收敛一下自己的虚荣心，更多的关注当下，更重要的是<strong>关注自己</strong>。</p>
 ]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
       <tags>
         <tag>个人总结</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Modeling and Simulation Fundamentals</title>
-    <url>/2020/08/29/The-Forward-Euler-Method/</url>
-    <content><![CDATA[<h1 id="The-Forward-Euler-Method"><a href="#The-Forward-Euler-Method" class="headerlink" title="The Forward Euler Method"></a>The Forward Euler Method</h1><p>欧拉方法是一种一阶数值方法，用以对给定初值的常微分方程（即初值问题）求解。它是一种解决数值常微分方程的最基本的一类显型方法。<br><img src="/home/public/avatar/s_v_t.svg"><br>我们用上面的方程来控制位置和速度的变化率。</p>
-<ul>
-<li>位置的变化率是速度，</li>
-<li>速度的变化率是加速度，<br>按牛顿第二定律，力除以质量，在典型的设置中，我们也知道时间0处的位置和 速度。<br>现在我们使用计算机来了解这些方程式导致的结果，最简单的方法称为前向欧拉方法。<br><img src="/home/public/avatar/0_h.svg"><br>欧拉的思想是通过在很短的时间内来解决这些方程式。如果我们从初始位置——和初始速度——开始，那么在一个很的短时间间隔内会发生什么呢？</li>
-</ul>
-<p>位置将大约增加速度的h倍：如果速度是每秒2米，我们等待3秒，位置将改变6米。当然，实际仿真时我们使用的时间步长要小得多。<br>速度的变化也是类似的，在一些小的时间间隔之后，速度将是其原始值加上时间步长乘以加速度，即。</p>
-<p>所以这个方程会使我们获得大概从时刻0到时刻的解。这里用等号其实并不是很准确，应该是约等于。<br><img src="/home/public/avatar/h_2h.svg"><br>以同样的方式，我们可以用另一个时间步长得出从h到2h的结果。我们知道在第一步结束时我们已达到的位置，并且我们继续使用新的速度，这导致了新的位置——速度也是类似的。反复迭代此过程，就可以随时查找位置和速度的估计值。</p>
-<p>另一种角度看上面的公式：从当前时刻出发，根据当前时刻的函数值及其导数，可得到下一时刻的值。因此显式欧拉法又称为前向欧拉（Forward Euler）<br>即<br>$$ \tilde{u}<em>{k+1} = \tilde{u}</em>{k} + \Delta t f(\tilde{u}_k,t_k) $$</p>
-<h1 id="Higher-Order-ODE-Integrators"><a href="#Higher-Order-ODE-Integrators" class="headerlink" title="Higher-Order ODE Integrators"></a>Higher-Order ODE Integrators</h1><h2 id="Runge-Kutta-4-Method"><a href="#Runge-Kutta-4-Method" class="headerlink" title="Runge-Kutta 4 Method"></a>Runge-Kutta 4 Method</h2><p>Forward Euler is a first-order accurate method meaning if the step size is halved, the error will be halved as well.</p>
-<p>4-stage Runge-Kutta (RK4) is a <strong>multi-stage method</strong> that is fourth-order accurate, meaning <em>if we halve the time step, the error is reduced by a factor of 1/16</em>.</p>
-<p>The  4-stage Runge-Kutta iteration is:<br>$$ t_{k+1/2} := t_{k} + \frac{\Delta t}{2}, ;; t_{k+1} := t_{k} + \Delta t $$<br>$$ s_1 = f(u_{k},t_{k}) $$<br>$$ s_2 = f(u_{k} + \frac{\Delta t}{2} s_1,t_{k+1/2}) $$<br>$$ s_3 = f(u_{k} + \frac{\Delta t}{2} s_2,t_{k+1/2}) $$<br>$$ s_4 = f(u_{k} + \Delta t , s_3,t_{k+1}) $$<br>$$ u_{k+1} = u_{k} + \frac{\Delta t}{6}\left(s_1 + 2s_2 + 2s_3 + s_4 \right) $$<br>Note that each time step requires four evaluations of $ f(u,t). $</p>
-<p>In general we expect the numerical solution from an ODE solver to improve as we decrease the step size used, which will increase the computational cost. However, we don’t have any guarantees that using different schemes with the same computational cost will result in better, worse, or the same accuracy. It is important to note that <strong>a method’s order of accuracy is a statement about the rate the numerical error will decrease as the step size decreases, not a statement about how accurate a method is at a given step size or computational cost.</strong><br>There are two points to make here. First there are classes of problems that forward Euler will solve exactly. In these cases RK4 cannot be more accurate than that. Second, the statement that RK4 is a higher order method than forward Euler is a statement that the error in RK4 reduces faster as we decrease the step size, not a statement that RK4 will be more accurate at a given step size. It is very often the case that RK4 is more accurate, especially at small step sizes, but we are not guaranteed that.</p>
-<p>明白精确度的定义是误差随步长减小而减小的速率，而非是在固定步长或计算成本的情况下的。</p>
-<h1 id="The-Backward-Euler-Method"><a href="#The-Backward-Euler-Method" class="headerlink" title="The Backward Euler Method"></a>The Backward Euler Method</h1><p>Forward Euler and Runge-Kutta method are <strong>explicit methods</strong>, meaning that you can write down an explicit formula for the solution at the next time step.</p>
-<p>Backward Euler is an implicit solver, meaning we cannot, in general, express the updated solution in closed form. The backward Euler scheme is defined by iteration:<br>$$ u_{k+1} = u_{k} + f(u_{k+1},t_{k+1})\Delta t $$<br>where the $ u_{k+1} $ is defined implicitly as a solution to this equation. </p>
-<p>In general, using backward Euler requires solving a root-finding problem to find the updated solution. This means each iteration of backward Euler has the computation cost of solving a nonlinear equation. The form of the root-finding problem is:</p>
-<p>$$ R(u_{k+1}) = u_{k+1} - u_{k} - \Delta t f(u_{k+1},t_{k+1}) = 0 $$</p>
-<p>Backward Euler has a property called unconditional stability, meaning that <strong>if the true solution remains bounded for all time, then the approximate solution given by the backward Euler scheme will remain bounded for all time</strong>, even when using very large time steps. This is a very attractive quality to have, especially for investigating the long term behavior of certain systems.</p>
-<p>So implicit methods in general are actually <strong>pretty widely used<br>for systems that have this very vast range of timescales</strong>, and particular systems where maybe there’svery fast processes that are happening,but you care about integrating for a very long time because you care about some slower process.</p>
-<p>参考：</p>
-<ol>
-<li><a href="https://www.jianshu.com/p/e774e75f1263">https://www.jianshu.com/p/e774e75f1263</a></li>
-</ol>
-]]></content>
-      <tags>
-        <tag>MITxAI</tag>
       </tags>
   </entry>
   <entry>
@@ -54,14 +28,23 @@
     <url>/2020/08/29/Live-Session-Notes/</url>
     <content><![CDATA[<h1 id="Live-Session-1"><a href="#Live-Session-1" class="headerlink" title="Live Session 1"></a>Live Session 1</h1><h2 id="从自动驾驶的例子来分析如今AI技术的发展"><a href="#从自动驾驶的例子来分析如今AI技术的发展" class="headerlink" title="从自动驾驶的例子来分析如今AI技术的发展"></a>从自动驾驶的例子来分析如今AI技术的发展</h2><p>(由于这次的内容还没有进行足够多的记录，所以内容有限)</p>
 <ul>
-<li>EDP —— Energy-delay Product</li>
-<li>目前自动驾驶的技术差距与理想状态下的差距还很大(数百倍)</li>
-<li>一个优秀的AI工程师一定是软硬件通吃的，算法、软件、传感器和编码等都是建立在硬件的基础之上的，先进的软件技术需要硬件的支持</li>
-<li>Co-optimizing —— technologies, architecture, algorithms</li>
-<li>自动驾驶的瓶颈，一方面是资源的利用率低，一方面是能量的转化率低。<br>资源产生巨大的浪费, both power and the memory, over 95% of them are wasted, 大部分的能量都被用于计算了，真正有效的利用少之又少。</li>
-<li>对于计算机的核心部件，CPU，其size的缩小，即硬件上的提升k倍，都会使得其性能—— EDP 提升k^4倍</li>
+<li><p>EDP —— Energy-delay Product</p>
+</li>
+<li><p>目前自动驾驶的技术差距与理想状态下的差距还很大(数百倍)</p>
+</li>
+<li><p>一个优秀的AI工程师一定是软硬件通吃的，算法、软件、传感器和编码等都是建立在硬件的基础之上的，先进的软件技术需要硬件的支持</p>
+</li>
+<li><p>Co-optimizing —— technologies, architecture, algorithms</p>
+</li>
+<li><p>自动驾驶的瓶颈，一方面是资源的利用率低，一方面是能量的转化率低。<br>资源产生巨大的浪费, both power and the memory, over 95% of them are wasted, 大部分的能量都被用于计算了，真正有效的利用少之又少。</p>
+</li>
+<li><p>对于计算机的核心部件，CPU，其size的缩小，即硬件上的提升k倍，都会使得其性能—— EDP 提升k^4倍</p>
+</li>
+<li><p>Moore’s law</p>
+<a id="more"></a>
+
+</li>
 </ul>
-<p>Moore’s law</p>
 <h1 id="Live-Session-2"><a href="#Live-Session-2" class="headerlink" title="Live Session 2"></a>Live Session 2</h1><ol>
 <li><p>If Moore’s Law worked int the past, why not use it in the future?</p>
 </li>
@@ -93,6 +76,50 @@
 </li>
 </ol>
 ]]></content>
+      <categories>
+        <category>MITxAI</category>
+      </categories>
+      <tags>
+        <tag>MITxAI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Modeling and Simulation Fundamentals</title>
+    <url>/2020/08/29/The-Forward-Euler-Method/</url>
+    <content><![CDATA[<h1 id="The-Forward-Euler-Method"><a href="#The-Forward-Euler-Method" class="headerlink" title="The Forward Euler Method"></a>The Forward Euler Method</h1><p>欧拉方法是一种一阶数值方法，用以对给定初值的常微分方程（即初值问题）求解。它是一种解决数值常微分方程的最基本的一类显型方法。<br><img src="/home/public/avatar/s_v_t.svg"><br>我们用上面的方程来控制位置和速度的变化率。</p>
+<a id="more"></a>
+
+<ul>
+<li>位置的变化率是速度，</li>
+<li>速度的变化率是加速度，<br>按牛顿第二定律，力除以质量，在典型的设置中，我们也知道时间0处的位置和 速度。<br>现在我们使用计算机来了解这些方程式导致的结果，最简单的方法称为前向欧拉方法。<br><img src="/home/public/avatar/0_h.svg"><br>欧拉的思想是通过在很短的时间内来解决这些方程式。如果我们从初始位置——和初始速度——开始，那么在一个很的短时间间隔内会发生什么呢？</li>
+</ul>
+<p>位置将大约增加速度的h倍：如果速度是每秒2米，我们等待3秒，位置将改变6米。当然，实际仿真时我们使用的时间步长要小得多。<br>速度的变化也是类似的，在一些小的时间间隔之后，速度将是其原始值加上时间步长乘以加速度，即。</p>
+<p>所以这个方程会使我们获得大概从时刻0到时刻的解。这里用等号其实并不是很准确，应该是约等于。<br><img src="/home/public/avatar/h_2h.svg"><br>以同样的方式，我们可以用另一个时间步长得出从h到2h的结果。我们知道在第一步结束时我们已达到的位置，并且我们继续使用新的速度，这导致了新的位置——速度也是类似的。反复迭代此过程，就可以随时查找位置和速度的估计值。</p>
+<p>另一种角度看上面的公式：从当前时刻出发，根据当前时刻的函数值及其导数，可得到下一时刻的值。因此显式欧拉法又称为前向欧拉（Forward Euler）<br>即<br>$$<br>\tilde{u}<em>{k+1} = \tilde{u}</em>{k} + \Delta t f(\tilde{u}_k,t_k)<br>$$</p>
+<h1 id="Higher-Order-ODE-Integrators"><a href="#Higher-Order-ODE-Integrators" class="headerlink" title="Higher-Order ODE Integrators"></a>Higher-Order ODE Integrators</h1><h2 id="Runge-Kutta-4-Method"><a href="#Runge-Kutta-4-Method" class="headerlink" title="Runge-Kutta 4 Method"></a>Runge-Kutta 4 Method</h2><p>Forward Euler is a first-order accurate method meaning if the step size is halved, the error will be halved as well.</p>
+<p>4-stage Runge-Kutta (RK4) is a <strong>multi-stage method</strong> that is fourth-order accurate, meaning <em>if we halve the time step, the error is reduced by a factor of 1/16</em>.</p>
+<p>The  4-stage Runge-Kutta iteration is:<br>$$<br>t_{k+1/2} := t_{k} + \frac{\Delta t}{2}, ;; t_{k+1} := t_{k} + \Delta t<br>$$</p>
+<p>$$<br>s_1 = f(u_{k},t_{k})<br>$$</p>
+<p>$$<br>s_2 = f(u_{k} + \frac{\Delta t}{2} s_1,t_{k+1/2})<br>$$</p>
+<p>$$<br>s_3 = f(u_{k} + \frac{\Delta t}{2} s_2,t_{k+1/2})<br>$$</p>
+<p>$$<br>s_4 = f(u_{k} + \Delta t , s_3,t_{k+1})<br>$$</p>
+<p>$$<br>u_{k+1} = u_{k} + \frac{\Delta t}{6}\left(s_1 + 2s_2 + 2s_3 + s_4 \right)<br>$$</p>
+<p>Note that each time step requires four evaluations of<br>$$<br>f(u,t)<br>$$<br>. </p>
+<p>In general we expect the numerical solution from an ODE solver to improve as we decrease the step size used, which will increase the computational cost. However, we don’t have any guarantees that using different schemes with the same computational cost will result in better, worse, or the same accuracy. It is important to note that <strong>a method’s order of accuracy is a statement about the rate the numerical error will decrease as the step size decreases, not a statement about how accurate a method is at a given step size or computational cost.</strong><br>There are two points to make here. First there are classes of problems that forward Euler will solve exactly. In these cases RK4 cannot be more accurate than that. Second, the statement that RK4 is a higher order method than forward Euler is a statement that the error in RK4 reduces faster as we decrease the step size, not a statement that RK4 will be more accurate at a given step size. It is very often the case that RK4 is more accurate, especially at small step sizes, but we are not guaranteed that.</p>
+<p>明白精确度的定义是误差随步长减小而减小的速率，而非是在固定步长或计算成本的情况下的。</p>
+<h1 id="The-Backward-Euler-Method"><a href="#The-Backward-Euler-Method" class="headerlink" title="The Backward Euler Method"></a>The Backward Euler Method</h1><p>Forward Euler and Runge-Kutta method are <strong>explicit methods</strong>, meaning that you can write down an explicit formula for the solution at the next time step.</p>
+<p>Backward Euler is an implicit solver, meaning we cannot, in general, express the updated solution in closed form. The backward Euler scheme is defined by iteration:<br>$$<br> u_{k+1} = u_{k} + f(u_{k+1},t_{k+1})\Delta t<br>$$</p>
+<p>where the $ u_{k+1} $ is defined implicitly as a solution to this equation. </p>
+<p>In general, using backward Euler requires solving a root-finding problem to find the updated solution. This means each iteration of backward Euler has the computation cost of solving a nonlinear equation. The form of the root-finding problem is:<br>$$<br>R(u_{k+1}) = u_{k+1} - u_{k} - \Delta t f(u_{k+1},t_{k+1}) = 0<br>$$<br>Backward Euler has a property called unconditional stability, meaning that <strong>if the true solution remains bounded for all time, then the approximate solution given by the backward Euler scheme will remain bounded for all time</strong>, even when using very large time steps. This is a very attractive quality to have, especially for investigating the long term behavior of certain systems.</p>
+<p>So implicit methods in general are actually <strong>pretty widely used<br>for systems that have this very vast range of timescales</strong>, and particular systems where maybe there’svery fast processes that are happening,but you care about integrating for a very long time because you care about some slower process.</p>
+<p>参考：</p>
+<ol>
+<li><a href="https://www.jianshu.com/p/e774e75f1263">https://www.jianshu.com/p/e774e75f1263</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>MITxAI</category>
+      </categories>
       <tags>
         <tag>MITxAI</tag>
       </tags>
